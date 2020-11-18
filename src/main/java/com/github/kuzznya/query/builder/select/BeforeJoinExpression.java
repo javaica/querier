@@ -1,5 +1,7 @@
 package com.github.kuzznya.query.builder.select;
 
+import com.github.kuzznya.query.builder.select.model.JoinType;
+
 public abstract class BeforeJoinExpression extends BeforeWhereExpression {
 
     protected BeforeJoinExpression(SelectExpression parent) {
@@ -7,7 +9,7 @@ public abstract class BeforeJoinExpression extends BeforeWhereExpression {
     }
 
     public AfterJoinExpression join(String table) {
-        return new AfterJoinExpression(this, null, table);
+        return new AfterJoinExpression(this, JoinType.DEFAULT, table);
     }
 
     public AfterJoinExpression leftJoin(String table) {

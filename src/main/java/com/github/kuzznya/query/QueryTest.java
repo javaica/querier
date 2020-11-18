@@ -1,11 +1,20 @@
 package com.github.kuzznya.query;
 
-import com.github.kuzznya.query.builder.select.SelectExpression;
+import com.github.kuzznya.query.builder.QueryBuilder;
+import com.github.kuzznya.query.builder.syntax.DefaultSyntaxProvider;
+import com.github.kuzznya.query.builder.syntax.SyntaxProvider;
 
 public class QueryTest {
 
     public static void main(String[] args) {
-        String query = SelectExpression
+        SyntaxProvider provider = new DefaultSyntaxProvider() {
+            @Override
+            public String delimiter() {
+                return "\n";
+            }
+        };
+        QueryBuilder queryBuilder = new QueryBuilder(provider);
+        String query = queryBuilder
                 .select("col1")
                 .distinct()
                 .from("T001")

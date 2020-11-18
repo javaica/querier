@@ -1,5 +1,7 @@
 package com.github.kuzznya.query.builder.select;
 
+import com.github.kuzznya.query.builder.select.model.SelectType;
+
 public class AfterSelectExpression extends SelectExpression {
 
     protected AfterSelectExpression(SelectExpression parent) {
@@ -16,8 +18,8 @@ public class AfterSelectExpression extends SelectExpression {
         return this;
     }
 
-    public AfterFromExpression from(String... tables) {
-        super.setFrom(tables);
+    public AfterFromExpression from(String table) {
+        super.setFrom(table);
         return new AfterFromExpression(this);
     }
 }

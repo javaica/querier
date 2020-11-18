@@ -1,41 +1,39 @@
 package com.github.kuzznya.query.builder.select;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.github.kuzznya.query.builder.QueryExpression;
+import com.github.kuzznya.query.builder.select.model.*;
+import com.github.kuzznya.query.builder.syntax.SyntaxProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public abstract class SelectExpression {
+public abstract class SelectExpression extends QueryExpression {
 
-    public static AfterSelectExpression select(String... columns) {
-        AfterSelectExpression expression = new AfterSelectExpression(null);
-        expression.setSelect(columns);
-        return expression;
-    }
-
-
-    private String select;
-    private SelectType selectType;
+    private String[] selectColumns;
+    private ColumnAlias[] selectAliases;
+    private SelectType selectType = SelectType.DEFAULT;
     private String from;
-    private JoinType joinType;
     private List<Join> joins = new ArrayList<>();
     private String where;
     private String groupBy;
     private String having;
     private String orderBy;
-    private OrderType orderType;
+    private OrderType orderType = OrderType.DEFAULT;
     private Integer limit;
     private Integer offset;
 
+    protected SelectExpression(SyntaxProvider syntaxProvider) {
+        super(syntaxProvider);
+    }
+
     protected SelectExpression(SelectExpression parent) {
-        if (parent == null)
-            return;
-        select = parent.select;
+        super(parent.syntaxProvider);
+        selectColumns = parent.selectColumns;
+        selectAliases = parent.selectAliases;
         selectType = parent.selectType;
         from = parent.from;
-        joinType = parent.joinType;
         joins = parent.joins;
         where = parent.where;
         groupBy = parent.groupBy;
@@ -47,15 +45,21 @@ public abstract class SelectExpression {
     }
 
     protected void setSelect(String... columns) {
-        select = String.join(",", columns);
+        selectColumns = columns;
+        selectAliases = null;
+    }
+
+    protected void setSelect(ColumnAlias... aliases) {
+        selectAliases = aliases;
+        selectColumns = null;
     }
 
     protected void setSelectType(SelectType type) {
         selectType = type;
     }
 
-    protected void setFrom(String... tables) {
-        from = String.join(",", tables);
+    protected void setFrom(String table) {
+        from = table;
     }
 
     protected void addJoin(Join join) {
@@ -70,14 +74,14 @@ public abstract class SelectExpression {
         if (where == null)
             where = condition;
         else
-            where += " AND " + condition;
+            where += " " + syntaxProvider.and() + " " + condition;
     }
 
     protected void orWhere(String condition) {
         if (where == null)
             where = condition;
         else
-            where += " OR " + condition;
+            where += " " + syntaxProvider.or() + " " + condition;
     }
 
     protected void setGroupBy(String... columns) {
@@ -118,66 +122,48 @@ public abstract class SelectExpression {
         this.offset = offset;
     }
 
-
-    private String emptyIfNull(String param) {
-        return param == null ? "" : param;
-    }
-
-    private String emptyIfNull(Object obj) {
-        return obj == null ? "" : obj.toString();
-    }
-
-    private String emptyIfNull(String expr, String param) {
-        return expr == null || param == null ? "" : expr + param;
-    }
-
-    private String emptyIfNull(String expr, Object param) {
-        return expr == null || param == null ? "" : expr + param;
-    }
-
-    private String emptyIfNull(Object first, Object second) {
-        return first == null || second == null ? "" : first.toString() + second.toString();
-    }
-
+    @Override
     protected String build() {
         // TODO: 18.11.2020 add checks
-        return "SELECT " + emptyIfNull(selectType, " ") + select +
-                emptyIfNull(" FROM ", from) +
+        return Optional.ofNullable(selectColumns)
+                .map(columns -> syntaxProvider.select(selectType, selectColumns))
+                .orElseGet(() -> syntaxProvider.select(selectType, selectAliases)) + syntaxProvider.delimiter() +
+                Optional.ofNullable(from)
+                        .map(table -> syntaxProvider.from(table) + syntaxProvider.delimiter())
+                        .orElse("") +
                 joins.stream()
-                        .map(join -> emptyIfNull(" ", join.type) + " JOIN " + join.join + " ON " + join.on)
+                        .map(join -> syntaxProvider.join(join) + syntaxProvider.delimiter())
                         .collect(Collectors.joining()) +
-                emptyIfNull(" WHERE ", where) +
-                emptyIfNull(" GROUP BY ", groupBy) +
-                emptyIfNull(" HAVING ", having) +
-                emptyIfNull(" ORDER BY ", orderBy) +
-                emptyIfNull(" ", orderType) +
-                emptyIfNull(" LIMIT ", limit) +
-                emptyIfNull(" OFFSET ", offset);
+                Optional.ofNullable(where)
+                        .map(condition -> syntaxProvider.where(condition) + syntaxProvider.delimiter())
+                        .orElse("") +
+                Optional.ofNullable(groupBy)
+                        .map(column -> syntaxProvider.groupBy(column) + syntaxProvider.delimiter())
+                        .orElse("") +
+                Optional.ofNullable(having)
+                        .map(condition -> syntaxProvider.having(condition) + syntaxProvider.delimiter())
+                        .orElse("") +
+                Optional.ofNullable(orderBy)
+                        .map(value -> syntaxProvider.orderBy(value, orderType) + syntaxProvider.delimiter())
+                        .orElse("") +
+                Optional.ofNullable(limit)
+                        .map(value -> syntaxProvider.limit(value) + syntaxProvider.delimiter())
+                        .orElse("") +
+                Optional.ofNullable(offset)
+                        .map(value -> syntaxProvider.offset(value) + syntaxProvider.delimiter())
+                        .orElse("");
 
     }
 
-
-    protected enum SelectType {
-        ALL,
-        DISTINCT
+    public static AfterSelectExpression select(SyntaxProvider syntaxProvider, String... columns) {
+        SelectExpression parent = new SelectExpression(syntaxProvider) {};
+        parent.setSelect(columns);
+        return new AfterSelectExpression(parent);
     }
 
-    protected enum JoinType {
-        LEFT,
-        RIGHT,
-        INNER
-    }
-
-    @AllArgsConstructor
-    @Getter
-    protected static class Join {
-        private final JoinType type;
-        private final String join;
-        private final String on;
-    }
-
-    protected enum OrderType {
-        ASC,
-        DESC
+    public static AfterSelectExpression select(SyntaxProvider syntaxProvider, ColumnAlias... aliases) {
+        SelectExpression parent = new SelectExpression(syntaxProvider) {};
+        parent.setSelect(aliases);
+        return new AfterSelectExpression(parent);
     }
 }
