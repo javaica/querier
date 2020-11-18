@@ -3,16 +3,19 @@ package com.github.kuzznya.query.builder.select;
 import com.github.kuzznya.query.builder.QueryExpression;
 import com.github.kuzznya.query.builder.select.model.*;
 import com.github.kuzznya.query.builder.syntax.SyntaxProvider;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Getter(AccessLevel.PROTECTED)
 public abstract class SelectExpression extends QueryExpression {
 
-    private String[] selectColumns;
-    private ColumnAlias[] selectAliases;
+    private List<String> selectColumns = new ArrayList<>();
     private SelectType selectType = SelectType.DEFAULT;
     private String from;
     private List<Join> joins = new ArrayList<>();
@@ -31,7 +34,6 @@ public abstract class SelectExpression extends QueryExpression {
     protected SelectExpression(SelectExpression parent) {
         super(parent.syntaxProvider);
         selectColumns = parent.selectColumns;
-        selectAliases = parent.selectAliases;
         selectType = parent.selectType;
         from = parent.from;
         joins = parent.joins;
@@ -44,14 +46,8 @@ public abstract class SelectExpression extends QueryExpression {
         offset = parent.offset;
     }
 
-    protected void setSelect(String... columns) {
-        selectColumns = columns;
-        selectAliases = null;
-    }
-
-    protected void setSelect(ColumnAlias... aliases) {
-        selectAliases = aliases;
-        selectColumns = null;
+    protected void addSelectColumns(String... columns) {
+        selectColumns.addAll(Arrays.asList(columns));
     }
 
     protected void setSelectType(SelectType type) {
@@ -122,12 +118,14 @@ public abstract class SelectExpression extends QueryExpression {
         this.offset = offset;
     }
 
+    protected String createAlias(String value, String alias) {
+        return syntaxProvider.alias(value, alias);
+    }
+
     @Override
     protected String build() {
         // TODO: 18.11.2020 add checks
-        String query = Optional.ofNullable(selectColumns)
-                .map(columns -> syntaxProvider.select(selectType, selectColumns))
-                .orElseGet(() -> syntaxProvider.select(selectType, selectAliases)) + syntaxProvider.delimiter() +
+        String query = syntaxProvider.select(selectType, selectColumns) + syntaxProvider.delimiter() +
                 Optional.ofNullable(from)
                         .map(table -> syntaxProvider.from(table) + syntaxProvider.delimiter())
                         .orElse("") +
@@ -158,13 +156,13 @@ public abstract class SelectExpression extends QueryExpression {
 
     public static AfterSelectExpression select(SyntaxProvider syntaxProvider, String... columns) {
         SelectExpression parent = new SelectExpression(syntaxProvider) {};
-        parent.setSelect(columns);
+        parent.addSelectColumns(columns);
         return new AfterSelectExpression(parent);
     }
 
-    public static AfterSelectExpression select(SyntaxProvider syntaxProvider, ColumnAlias... aliases) {
+    public static AfterSelectExpression.Aliasable select(SyntaxProvider syntaxProvider, String column) {
         SelectExpression parent = new SelectExpression(syntaxProvider) {};
-        parent.setSelect(aliases);
-        return new AfterSelectExpression(parent);
+        parent.addSelectColumns(column);
+        return new AfterSelectExpression.Aliasable(parent);
     }
 }

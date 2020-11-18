@@ -9,4 +9,16 @@ public class AfterFromExpression extends BeforeJoinExpression {
     public String build() {
         return super.build();
     }
+
+    public static class Aliasable extends AfterFromExpression {
+
+        protected Aliasable(SelectExpression parent) {
+            super(parent);
+        }
+
+        public AfterFromExpression as(String alias) {
+            super.setFrom(syntaxProvider.alias(super.getFrom(), alias));
+            return new AfterFromExpression(this);
+        }
+    }
 }

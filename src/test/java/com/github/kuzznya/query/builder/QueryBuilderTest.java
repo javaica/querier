@@ -1,11 +1,10 @@
 package com.github.kuzznya.query.builder;
 
-import com.github.kuzznya.query.builder.select.model.ColumnAlias;
 import com.github.kuzznya.query.builder.syntax.DefaultSyntaxProvider;
 import com.github.kuzznya.query.builder.syntax.SyntaxProvider;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class QueryBuilderTest {
 
@@ -20,10 +19,22 @@ class QueryBuilderTest {
     }
 
     @Test
+    public void multipleSelectValues() {
+        String query = new QueryBuilder()
+                .select()
+                .select("col1")
+                .select("col2")
+                .from("Table1")
+                .build();
+
+        assertEquals("SELECT col1, col2 FROM Table1", query);
+    }
+
+    @Test
     public void selectWithAliases() {
         String query = new QueryBuilder()
-                .select(new ColumnAlias("column1", "first"),
-                        new ColumnAlias("column2", "second"))
+                .select("column1").as("first")
+                .select("column2").as("second")
                 .from("Table1")
                 .build();
 
@@ -34,10 +45,10 @@ class QueryBuilderTest {
     public void selectWithJoins() {
         String query = new QueryBuilder()
                 .select("t1.col1", "t2.col2", "t3.col3")
-                .from("Table1 AS t1")
-                .leftJoin("Table2 AS t2")
+                .from("Table1").as("t1")
+                .leftJoin("Table2").as("t2")
                 .on("t2.col2 = t1.col1")
-                .join("Table3 AS t3")
+                .join("Table3").as("t3")
                 .on("t3.col3 > t1.col1")
                 .build();
 

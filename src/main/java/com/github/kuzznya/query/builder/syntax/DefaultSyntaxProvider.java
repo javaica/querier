@@ -1,17 +1,15 @@
 package com.github.kuzznya.query.builder.syntax;
 
-import com.github.kuzznya.query.builder.select.model.ColumnAlias;
 import com.github.kuzznya.query.builder.select.model.Join;
 import com.github.kuzznya.query.builder.select.model.OrderType;
 import com.github.kuzznya.query.builder.select.model.SelectType;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class DefaultSyntaxProvider implements SyntaxProvider {
 
     @Override
-    public String select(SelectType type, String... columns) {
+    public String select(SelectType type, List<String> columns) {
         String typeString = "";
 
         switch (type) {
@@ -27,14 +25,6 @@ public class DefaultSyntaxProvider implements SyntaxProvider {
         }
 
         return "SELECT " + typeString + String.join(", ", columns);
-    }
-
-    @Override
-    public String select(SelectType type, ColumnAlias... aliases) {
-        String selectValues = Arrays.stream(aliases)
-                .map(alias -> alias.getColumn() + " AS " + alias.getAlias())
-                .collect(Collectors.joining(", "));
-        return select(type, selectValues);
     }
 
     @Override
@@ -116,6 +106,11 @@ public class DefaultSyntaxProvider implements SyntaxProvider {
     @Override
     public String or() {
         return "OR";
+    }
+
+    @Override
+    public String alias(String value, String alias) {
+        return value + " AS " + alias;
     }
 
     @Override
