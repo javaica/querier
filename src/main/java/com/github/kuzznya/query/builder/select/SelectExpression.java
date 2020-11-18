@@ -125,7 +125,7 @@ public abstract class SelectExpression extends QueryExpression {
     @Override
     protected String build() {
         // TODO: 18.11.2020 add checks
-        return Optional.ofNullable(selectColumns)
+        String query = Optional.ofNullable(selectColumns)
                 .map(columns -> syntaxProvider.select(selectType, selectColumns))
                 .orElseGet(() -> syntaxProvider.select(selectType, selectAliases)) + syntaxProvider.delimiter() +
                 Optional.ofNullable(from)
@@ -153,6 +153,7 @@ public abstract class SelectExpression extends QueryExpression {
                         .map(value -> syntaxProvider.offset(value) + syntaxProvider.delimiter())
                         .orElse("");
 
+        return query.strip();
     }
 
     public static AfterSelectExpression select(SyntaxProvider syntaxProvider, String... columns) {
