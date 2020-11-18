@@ -3,6 +3,10 @@
 Simple yet useful query builder that simplifies query creation 
 by restricting operator order.
 
+The purpose of this project is to create really easy-to-use solution
+for query building so that if the code compiles,
+then query operators are valid (not counting content, of course).
+
 ## Usage
 
 ```java
@@ -16,6 +20,37 @@ String query = new QueryBuilder()
 Result:
 ```sql
 SELECT col1, col2 FROM Table1 WHERE col1 > 0
+```
+
+Aliases:
+
+```java
+String query = new QueryBuilder()
+                .select("column1").as("first")
+                .select("column2").as("second")
+                .from("Table1")
+                .build();
+```
+
+Result:
+```sql
+SELECT column1 AS first, column2 AS second FROM Table1
+```
+
+```java
+String query = new QueryBuilder()
+                .select("t1.col1", "t2.col2", "t3.col3")
+                .from("Table1").as("t1")
+                .leftJoin("Table2").as("t2")
+                .on("t2.col2 = t1.col1")
+                .join("Table3").as("t3")
+                .on("t3.col3 > t1.col1")
+                .build();
+```
+
+Result:
+```sql
+SELECT t1.col1, t2.col2, t3.col3 FROM Table1 AS t1 LEFT JOIN Table2 AS t2 ON t2.col2 = t1.col1 JOIN Table3 AS t3 ON t3.col3 > t1.col1
 ```
 
 ```java
@@ -53,7 +88,9 @@ QueryBuilder queryBuilder = new QueryBuilder(provider);
 String query = queryBuilder
         .select("col1")
         .from("T001")
+        .build();
 ```
+
 Result:
 ```sql
 SELECT col1
@@ -62,4 +99,4 @@ FROM T001
 
 ## License
 
-The project is licensed under MIT License
+The project is licensed under MIT License.
