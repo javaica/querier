@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.github.kuzznya'
+version '0.0.1-SNAPSHOT'
+
+application {
+    mainClassName = 'com.github.kuzznya.query.QueryTest'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    testCompile 'org.junit.jupiter:junit-jupiter:5.6.2'
+}
