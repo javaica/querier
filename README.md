@@ -30,3 +30,7 @@ String query = SelectExpression
                 .offset(2)
                 .build();
 ```
+
+## License
+
+The project is licensed under MIT License
