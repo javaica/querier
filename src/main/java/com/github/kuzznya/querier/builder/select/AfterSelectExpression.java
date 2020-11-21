@@ -1,6 +1,6 @@
-package com.github.kuzznya.query.builder.select;
+package com.github.kuzznya.querier.builder.select;
 
-import com.github.kuzznya.query.builder.select.model.SelectType;
+import com.github.kuzznya.querier.builder.select.model.SelectType;
 
 public class AfterSelectExpression extends SelectExpression {
 

@@ -1,8 +1,11 @@
-package com.github.kuzznya.query.builder.select;
+package com.github.kuzznya.querier.builder.select;
 
-import com.github.kuzznya.query.builder.QueryExpression;
+import com.github.kuzznya.querier.builder.select.model.Join;
+import com.github.kuzznya.querier.builder.select.model.OrderType;
+import com.github.kuzznya.querier.builder.QueryExpression;
+import com.github.kuzznya.querier.builder.select.model.SelectType;
 import com.github.kuzznya.query.builder.select.model.*;
-import com.github.kuzznya.query.builder.syntax.SyntaxProvider;
+import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 

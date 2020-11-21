@@ -1,7 +1,7 @@
-package com.github.kuzznya.query.builder.select;
+package com.github.kuzznya.querier.builder.select;
 
-import com.github.kuzznya.query.builder.select.model.Join;
-import com.github.kuzznya.query.builder.select.model.JoinType;
+import com.github.kuzznya.querier.builder.select.model.Join;
+import com.github.kuzznya.querier.builder.select.model.JoinType;
 
 public class AfterJoinExpression extends SelectExpression {
 

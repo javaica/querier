@@ -1,6 +1,6 @@
-# SQL Query Builder
+# Querier
 
-Simple yet useful query builder that simplifies query creation 
+Simple yet useful SQL query builder that simplifies query creation 
 by restricting operator order.
 
 The purpose of this project is to create really easy-to-use solution

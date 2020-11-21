@@ -1,6 +1,6 @@
-package com.github.kuzznya.query.builder.select;
+package com.github.kuzznya.querier.builder.select;
 
-import com.github.kuzznya.query.builder.select.model.JoinType;
+import com.github.kuzznya.querier.builder.select.model.JoinType;
 
 public abstract class BeforeJoinExpression extends BeforeWhereExpression {
 

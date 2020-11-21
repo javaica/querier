@@ -1,4 +1,4 @@
-package com.github.kuzznya.query.builder.select;
+package com.github.kuzznya.querier.builder.select;
 
 public class AfterGroupByExpression extends BeforeOrderByExpression {
 

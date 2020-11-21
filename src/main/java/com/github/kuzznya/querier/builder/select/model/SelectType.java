@@ -1,4 +1,4 @@
-package com.github.kuzznya.query.builder.select.model;
+package com.github.kuzznya.querier.builder.select.model;
 
 public enum SelectType {
     DEFAULT,

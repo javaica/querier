@@ -1,6 +1,6 @@
-package com.github.kuzznya.query.builder;
+package com.github.kuzznya.querier.builder;
 
-import com.github.kuzznya.query.builder.syntax.SyntaxProvider;
+import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
 
 public abstract class QueryExpression {
 

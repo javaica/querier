@@ -1,4 +1,4 @@
-package com.github.kuzznya.query.builder.select.model;
+package com.github.kuzznya.querier.builder.select.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

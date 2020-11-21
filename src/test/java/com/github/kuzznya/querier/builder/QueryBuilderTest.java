@@ -1,7 +1,7 @@
-package com.github.kuzznya.query.builder;
+package com.github.kuzznya.querier.builder;
 
-import com.github.kuzznya.query.builder.syntax.DefaultSyntaxProvider;
-import com.github.kuzznya.query.builder.syntax.SyntaxProvider;
+import com.github.kuzznya.querier.builder.syntax.DefaultSyntaxProvider;
+import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
