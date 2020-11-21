@@ -4,7 +4,6 @@ import com.github.kuzznya.querier.builder.select.model.Join;
 import com.github.kuzznya.querier.builder.select.model.OrderType;
 import com.github.kuzznya.querier.builder.QueryExpression;
 import com.github.kuzznya.querier.builder.select.model.SelectType;
-import com.github.kuzznya.query.builder.select.model.*;
 import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -128,30 +127,30 @@ public abstract class SelectExpression extends QueryExpression {
     @Override
     protected String build() {
         // TODO: 18.11.2020 add checks
-        String query = syntaxProvider.select(selectType, selectColumns) + syntaxProvider.delimiter() +
+        String query = syntaxProvider.getSelectSyntaxProvider().select(selectType, selectColumns) + syntaxProvider.delimiter() +
                 Optional.ofNullable(from)
-                        .map(table -> syntaxProvider.from(table) + syntaxProvider.delimiter())
+                        .map(table -> syntaxProvider.getSelectSyntaxProvider().from(table) + syntaxProvider.delimiter())
                         .orElse("") +
                 joins.stream()
-                        .map(join -> syntaxProvider.join(join) + syntaxProvider.delimiter())
+                        .map(join -> syntaxProvider.getSelectSyntaxProvider().join(join) + syntaxProvider.delimiter())
                         .collect(Collectors.joining()) +
                 Optional.ofNullable(where)
-                        .map(condition -> syntaxProvider.where(condition) + syntaxProvider.delimiter())
+                        .map(condition -> syntaxProvider.getSelectSyntaxProvider().where(condition) + syntaxProvider.delimiter())
                         .orElse("") +
                 Optional.ofNullable(groupBy)
-                        .map(column -> syntaxProvider.groupBy(column) + syntaxProvider.delimiter())
+                        .map(column -> syntaxProvider.getSelectSyntaxProvider().groupBy(column) + syntaxProvider.delimiter())
                         .orElse("") +
                 Optional.ofNullable(having)
-                        .map(condition -> syntaxProvider.having(condition) + syntaxProvider.delimiter())
+                        .map(condition -> syntaxProvider.getSelectSyntaxProvider().having(condition) + syntaxProvider.delimiter())
                         .orElse("") +
                 Optional.ofNullable(orderBy)
-                        .map(value -> syntaxProvider.orderBy(value, orderType) + syntaxProvider.delimiter())
+                        .map(value -> syntaxProvider.getSelectSyntaxProvider().orderBy(value, orderType) + syntaxProvider.delimiter())
                         .orElse("") +
                 Optional.ofNullable(limit)
-                        .map(value -> syntaxProvider.limit(value) + syntaxProvider.delimiter())
+                        .map(value -> syntaxProvider.getSelectSyntaxProvider().limit(value) + syntaxProvider.delimiter())
                         .orElse("") +
                 Optional.ofNullable(offset)
-                        .map(value -> syntaxProvider.offset(value) + syntaxProvider.delimiter())
+                        .map(value -> syntaxProvider.getSelectSyntaxProvider().offset(value) + syntaxProvider.delimiter())
                         .orElse("");
 
         return query.strip();
