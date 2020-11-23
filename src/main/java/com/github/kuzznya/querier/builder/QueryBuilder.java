@@ -2,7 +2,7 @@ package com.github.kuzznya.querier.builder;
 
 import com.github.kuzznya.querier.builder.select.AfterSelectExpression;
 import com.github.kuzznya.querier.builder.select.SelectExpression;
-import com.github.kuzznya.querier.builder.syntax.DefaultSyntaxProvider;
+import com.github.kuzznya.querier.builder.syntax.impl.DefaultSyntaxProvider;
 import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
 
 public class QueryBuilder {

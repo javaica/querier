@@ -1,6 +1,6 @@
 package com.github.kuzznya.querier.builder;
 
-import com.github.kuzznya.querier.builder.syntax.DefaultSyntaxProvider;
+import com.github.kuzznya.querier.builder.syntax.impl.DefaultSyntaxProvider;
 import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
 import org.junit.jupiter.api.Test;
 

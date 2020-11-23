@@ -1,8 +1,9 @@
-package com.github.kuzznya.querier.builder.syntax;
+package com.github.kuzznya.querier.builder.syntax.impl;
 
 import com.github.kuzznya.querier.builder.select.model.Join;
 import com.github.kuzznya.querier.builder.select.model.OrderType;
 import com.github.kuzznya.querier.builder.select.model.SelectType;
+import com.github.kuzznya.querier.builder.syntax.SelectSyntaxProvider;
 
 import java.util.List;
 

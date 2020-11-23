@@ -1,4 +1,7 @@
-package com.github.kuzznya.querier.builder.syntax;
+package com.github.kuzznya.querier.builder.syntax.impl;
+
+import com.github.kuzznya.querier.builder.syntax.SelectSyntaxProvider;
+import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
 
 public class DefaultSyntaxProvider implements SyntaxProvider {
 
