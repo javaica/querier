@@ -10,7 +10,7 @@ then query operators are valid (not counting content, of course).
 ## Usage
 
 ```java
-String query = new QueryBuilder()
+String query = new Querier()
                 .select("col1", "col2")
                 .from("Table1")
                 .where("col1 > 0")
@@ -25,7 +25,7 @@ SELECT col1, col2 FROM Table1 WHERE col1 > 0
 Aliases:
 
 ```java
-String query = new QueryBuilder()
+String query = new Querier()
                 .select("column1").as("first")
                 .select("column2").as("second")
                 .from("Table1")
@@ -38,7 +38,7 @@ SELECT column1 AS first, column2 AS second FROM Table1
 ```
 
 ```java
-String query = new QueryBuilder()
+String query = new Querier()
                 .select("t1.col1", "t2.col2", "t3.col3")
                 .from("Table1").as("t1")
                 .leftJoin("Table2").as("t2")
@@ -54,8 +54,8 @@ SELECT t1.col1, t2.col2, t3.col3 FROM Table1 AS t1 LEFT JOIN Table2 AS t2 ON t2.
 ```
 
 ```java
-QueryBuilder queryBuilder = new QueryBuilder();
-String query = queryBuilder
+Querier querier = new Querier();
+String query = querier
                 .select("col1")
                 .distinct()
                 .from("T001")
@@ -84,8 +84,8 @@ SyntaxProvider provider = new DefaultSyntaxProvider() {
         return "\n";
     }
 };
-QueryBuilder queryBuilder = new QueryBuilder(provider);
-String query = queryBuilder
+Querier querier = new Querier(provider);
+String query = querier
         .select("col1")
         .from("T001")
         .build();

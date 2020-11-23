@@ -1,17 +1,17 @@
 package com.github.kuzznya.querier.builder.select;
 
-public class AfterWhereExpression extends BeforeGroupByExpression {
+public class AfterWhereBuilder extends BeforeGroupByBuilder {
 
-    protected AfterWhereExpression(SelectExpression parent) {
+    protected AfterWhereBuilder(SelectBuilder parent) {
         super(parent);
     }
 
-    public AfterWhereExpression and(String condition) {
+    public AfterWhereBuilder and(String condition) {
         super.andWhere(condition);
         return this;
     }
 
-    public AfterWhereExpression or(String condition) {
+    public AfterWhereBuilder or(String condition) {
         super.orWhere(condition);
         return this;
     }

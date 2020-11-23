@@ -1,8 +1,8 @@
 package com.github.kuzznya.querier.builder.select;
 
-public class FinalExpression extends SelectExpression {
+public class AfterOrderByBuilder extends BeforeLimitBuilder {
 
-    protected FinalExpression(SelectExpression parent) {
+    protected AfterOrderByBuilder(SelectBuilder parent) {
         super(parent);
     }
 

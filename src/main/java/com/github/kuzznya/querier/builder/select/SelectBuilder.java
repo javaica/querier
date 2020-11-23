@@ -2,7 +2,7 @@ package com.github.kuzznya.querier.builder.select;
 
 import com.github.kuzznya.querier.builder.select.model.Join;
 import com.github.kuzznya.querier.builder.select.model.OrderType;
-import com.github.kuzznya.querier.builder.QueryExpression;
+import com.github.kuzznya.querier.builder.QueryBuilder;
 import com.github.kuzznya.querier.builder.select.model.SelectType;
 import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
 import lombok.AccessLevel;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter(AccessLevel.PROTECTED)
-public abstract class SelectExpression extends QueryExpression {
+public abstract class SelectBuilder extends QueryBuilder {
 
     private List<String> selectColumns = new ArrayList<>();
     private SelectType selectType = SelectType.DEFAULT;
@@ -29,11 +29,11 @@ public abstract class SelectExpression extends QueryExpression {
     private Integer limit;
     private Integer offset;
 
-    protected SelectExpression(SyntaxProvider syntaxProvider) {
+    protected SelectBuilder(SyntaxProvider syntaxProvider) {
         super(syntaxProvider);
     }
 
-    protected SelectExpression(SelectExpression parent) {
+    protected SelectBuilder(SelectBuilder parent) {
         super(parent.syntaxProvider);
         selectColumns = parent.selectColumns;
         selectType = parent.selectType;
@@ -156,15 +156,15 @@ public abstract class SelectExpression extends QueryExpression {
         return query.strip();
     }
 
-    public static AfterSelectExpression select(SyntaxProvider syntaxProvider, String... columns) {
-        SelectExpression parent = new SelectExpression(syntaxProvider) {};
+    public static AfterSelectBuilder select(SyntaxProvider syntaxProvider, String... columns) {
+        SelectBuilder parent = new SelectBuilder(syntaxProvider) {};
         parent.addSelectColumns(columns);
-        return new AfterSelectExpression(parent);
+        return new AfterSelectBuilder(parent);
     }
 
-    public static AfterSelectExpression.Aliasable select(SyntaxProvider syntaxProvider, String column) {
-        SelectExpression parent = new SelectExpression(syntaxProvider) {};
+    public static AfterSelectBuilder.Aliasable select(SyntaxProvider syntaxProvider, String column) {
+        SelectBuilder parent = new SelectBuilder(syntaxProvider) {};
         parent.addSelectColumns(column);
-        return new AfterSelectExpression.Aliasable(parent);
+        return new AfterSelectBuilder.Aliasable(parent);
     }
 }

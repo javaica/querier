@@ -1,17 +1,17 @@
 package com.github.kuzznya.querier.builder.select;
 
-public class AfterHavingExpression extends BeforeOrderByExpression {
+public class AfterHavingBuilder extends BeforeOrderByBuilder {
 
-    protected AfterHavingExpression(SelectExpression parent) {
+    protected AfterHavingBuilder(SelectBuilder parent) {
         super(parent);
     }
 
-    public AfterHavingExpression and(String condition) {
+    public AfterHavingBuilder and(String condition) {
         super.andHaving(condition);
         return this;
     }
 
-    public AfterHavingExpression or(String condition) {
+    public AfterHavingBuilder or(String condition) {
         super.orHaving(condition);
         return this;
     }

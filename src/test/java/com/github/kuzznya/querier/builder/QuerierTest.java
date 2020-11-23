@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class QueryBuilderTest {
+class QuerierTest {
 
     @Test
     public void simpleSelect() {
-        String query = new QueryBuilder()
+        String query = new Querier()
                 .select("col1", "col2")
                 .from("Table1")
                 .build();
@@ -20,7 +20,7 @@ class QueryBuilderTest {
 
     @Test
     public void multipleSelectValues() {
-        String query = new QueryBuilder()
+        String query = new Querier()
                 .select()
                 .select("col1")
                 .select("col2")
@@ -32,7 +32,7 @@ class QueryBuilderTest {
 
     @Test
     public void selectWithAliases() {
-        String query = new QueryBuilder()
+        String query = new Querier()
                 .select("column1").as("first")
                 .select("column2").as("second")
                 .from("Table1")
@@ -43,7 +43,7 @@ class QueryBuilderTest {
 
     @Test
     public void selectWithJoins() {
-        String query = new QueryBuilder()
+        String query = new Querier()
                 .select("t1.col1", "t2.col2", "t3.col3")
                 .from("Table1").as("t1")
                 .leftJoin("Table2").as("t2")
@@ -60,7 +60,7 @@ class QueryBuilderTest {
 
     @Test
     public void complexSelect() {
-        String query = new QueryBuilder()
+        String query = new Querier()
                 .select("col1")
                 .distinct()
                 .from("T001")
@@ -95,9 +95,9 @@ class QueryBuilderTest {
                 return "\n";
             }
         };
-        QueryBuilder queryBuilder = new QueryBuilder(syntaxProvider);
+        Querier querier = new Querier(syntaxProvider);
 
-        String query = queryBuilder
+        String query = querier
                 .select("col1", "col2")
                 .from("Table1")
                 .limit(1)
