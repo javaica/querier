@@ -1,5 +1,7 @@
 package com.github.kuzznya.querier.builder;
 
+import com.github.kuzznya.querier.builder.insert.AfterInsertBuilder;
+import com.github.kuzznya.querier.builder.insert.InsertBuilder;
 import com.github.kuzznya.querier.builder.select.AfterSelectBuilder;
 import com.github.kuzznya.querier.builder.select.SelectBuilder;
 import com.github.kuzznya.querier.builder.syntax.impl.DefaultSyntaxProvider;
@@ -23,6 +25,10 @@ public class Querier {
 
     public AfterSelectBuilder.Aliasable select(String column) {
         return SelectBuilder.select(syntaxProvider, column);
+    }
+
+    public AfterInsertBuilder insert(String tableName) {
+        return InsertBuilder.insert(syntaxProvider, tableName);
     }
 
 }

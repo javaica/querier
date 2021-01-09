@@ -106,4 +106,26 @@ class QuerierTest {
         assertEquals("SELECT col1, col2\nFROM Table1\nLIMIT 1", query);
     }
 
+    @Test
+    public void insertIntoSpecifiedColumns() {
+        String query = new Querier()
+                .insert("Table1")
+                .column("Name, Surname")
+                .value("jesus, ibn god")
+                .build();
+
+        assertEquals("INSERT INTO Table1 (Name, Surname) " +
+                "\nVALUE (jesus, ibn god)", query);
+    }
+
+    @Test
+    public void defaultInsert() {
+        String query = new Querier()
+                .insert("Table1")
+                .value("jesus")
+                .build();
+
+        assertEquals("INSERT INTO Table1 " +
+                "\nVALUE (jesus)", query);
+    }
 }
