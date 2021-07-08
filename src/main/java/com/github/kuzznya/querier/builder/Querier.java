@@ -1,5 +1,7 @@
 package com.github.kuzznya.querier.builder;
 
+import com.github.kuzznya.querier.builder.create.AfterCreateBuilder;
+import com.github.kuzznya.querier.builder.create.CreateBuilder;
 import com.github.kuzznya.querier.builder.insert.AfterInsertBuilder;
 import com.github.kuzznya.querier.builder.insert.InsertBuilder;
 import com.github.kuzznya.querier.builder.select.AfterSelectBuilder;
@@ -31,4 +33,7 @@ public class Querier {
         return InsertBuilder.insert(syntaxProvider, tableName);
     }
 
+    public AfterCreateBuilder create() {
+        return CreateBuilder.create(syntaxProvider);
+    }
 }
