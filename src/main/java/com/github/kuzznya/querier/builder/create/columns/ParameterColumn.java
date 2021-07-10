@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class ParameterColumn extends Column  {
@@ -16,4 +17,9 @@ public class ParameterColumn extends Column  {
         this.params = Arrays.asList(params);
     }
 
+    @Override
+    public String toString() {
+        return super.toString() +
+                "(" + params.stream().map(String::valueOf).collect(Collectors.joining(", ")) + ")";
+    }
 }

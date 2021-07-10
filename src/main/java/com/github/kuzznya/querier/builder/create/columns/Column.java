@@ -9,4 +9,9 @@ import lombok.Getter;
 public class Column {
     protected String name;
     protected DataType type;
+
+    @Override
+    public String toString() {
+        return name + " " + type.name();
+    }
 }

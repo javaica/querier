@@ -150,7 +150,6 @@ class QuerierTest {
                 .DATE("birthday")
                 .build();
 
-        System.out.println(query);
         assertEquals("CREATE TABLE Contacts " +
                 "(contact_id INT(11), " +
                 "last_name VARCHAR(30), " +

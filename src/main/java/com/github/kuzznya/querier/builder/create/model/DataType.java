@@ -1,6 +1,6 @@
 package com.github.kuzznya.querier.builder.create.model;
 
-public enum DataType { // TODO: Implement the remaining types
+public enum DataType {
     TINYINT,
     SMALLINT,
     MEDIUMINT,

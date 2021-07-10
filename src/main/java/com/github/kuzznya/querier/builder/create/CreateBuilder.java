@@ -35,8 +35,12 @@ public abstract class CreateBuilder extends QueryBuilder {
         String query = "";
         query += syntaxProvider.getCreateSyntaxProvider().create();
         switch (type) {
-            case DATABASE -> query += syntaxProvider.getCreateSyntaxProvider().database(identifier);
-            case TABLE -> query += syntaxProvider.getCreateSyntaxProvider().table(identifier, columns);
+            case DATABASE:
+                query += syntaxProvider.getCreateSyntaxProvider().database(identifier);
+                break;
+            case TABLE:
+                query += syntaxProvider.getCreateSyntaxProvider().table(identifier, columns);
+                break;
         }
 
         return query;
