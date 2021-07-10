@@ -18,3 +18,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
