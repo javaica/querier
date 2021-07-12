@@ -1,5 +1,6 @@
 package com.github.kuzznya.querier.builder.syntax.impl;
 
+import com.github.kuzznya.querier.builder.syntax.CreateSyntaxProvider;
 import com.github.kuzznya.querier.builder.syntax.InsertSyntaxProvider;
 import com.github.kuzznya.querier.builder.syntax.SelectSyntaxProvider;
 import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
@@ -8,6 +9,7 @@ public class DefaultSyntaxProvider implements SyntaxProvider {
 
     SelectSyntaxProvider selectSyntaxProvider = new DefaultSelectSyntaxProvider();
     InsertSyntaxProvider insertSyntaxProvider = new DefaultInsertSyntaxProvider();
+    CreateSyntaxProvider createSyntaxProvider = new DefaultCreateSyntaxProvider();
 
     @Override
     public SelectSyntaxProvider getSelectSyntaxProvider() {
@@ -16,6 +18,11 @@ public class DefaultSyntaxProvider implements SyntaxProvider {
 
     @Override
     public InsertSyntaxProvider getInsertSyntaxProvider() { return insertSyntaxProvider; }
+
+    @Override
+    public CreateSyntaxProvider getCreateSyntaxProvider() {
+        return createSyntaxProvider;
+    }
 
     @Override
     public String and() {

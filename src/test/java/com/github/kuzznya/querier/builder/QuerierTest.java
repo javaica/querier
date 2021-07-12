@@ -128,4 +128,32 @@ class QuerierTest {
         assertEquals("INSERT INTO Table1 " +
                 "\nVALUE (jesus)", query);
     }
+
+    @Test
+    public void createDatabase() {
+        String query = new Querier()
+                .create()
+                .database("MyBase")
+                .build();
+
+        assertEquals("CREATE DATABASE MyBase", query);
+    }
+
+    @Test
+    public void createTable() {
+        String query = new Querier()
+                .create()
+                .table("Contacts")
+                .INT("contact_id", 11)
+                .VARCHAR("last_name", 30)
+                .VARCHAR("first_name", 30)
+                .DATE("birthday")
+                .build();
+
+        assertEquals("CREATE TABLE Contacts " +
+                "(contact_id INT(11), " +
+                "last_name VARCHAR(30), " +
+                "first_name VARCHAR(30), " +
+                "birthday DATE)", query);
+    }
 }
