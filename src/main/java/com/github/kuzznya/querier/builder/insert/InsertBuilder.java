@@ -42,7 +42,7 @@ public abstract class InsertBuilder extends QueryBuilder {
     protected String build() {
         String query = "";
         query += Optional.ofNullable(table)
-                .map(table -> syntaxProvider.getInsertSyntaxProvider().insertInto(table) + syntaxProvider.delimiter())
+                .map(table -> syntaxProvider.getInsertSyntaxProvider().insertInto(table) + " ")
                 .orElse("");
         if(!columns.isEmpty())
             query += syntaxProvider.getInsertSyntaxProvider().columns(columns) + syntaxProvider.delimiter();

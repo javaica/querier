@@ -28,7 +28,7 @@ public class DefaultInsertSyntaxProvider implements InsertSyntaxProvider {
 
     @Override
     public String values(List<String> values) {
-        return "\nVALUE " + encloseInBrackets(String.join(", ", values));
+        return "VALUES " + encloseInBrackets(String.join(", ", values));
     }
 
     @Override
