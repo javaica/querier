@@ -1,12 +1,13 @@
-package com.github.kuzznya.querier.builder;
+package com.github.kuzznya.querier.builder.select;
 
-import com.github.kuzznya.querier.builder.syntax.impl.DefaultSyntaxProvider;
+import com.github.kuzznya.querier.builder.Querier;
 import com.github.kuzznya.querier.builder.syntax.SyntaxProvider;
+import com.github.kuzznya.querier.builder.syntax.impl.DefaultSyntaxProvider;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class QuerierTest {
+public class SelectTest {
 
     @Test
     public void simpleSelect() {
@@ -104,56 +105,5 @@ class QuerierTest {
                 .build();
 
         assertEquals("SELECT col1, col2\nFROM Table1\nLIMIT 1", query);
-    }
-
-    @Test
-    public void insertIntoSpecifiedColumns() {
-        String query = new Querier()
-                .insert("Table1")
-                .column("Name, Surname")
-                .value("jesus, ibn god")
-                .build();
-
-        assertEquals("INSERT INTO Table1 (Name, Surname) " +
-                "\nVALUE (jesus, ibn god)", query);
-    }
-
-    @Test
-    public void defaultInsert() {
-        String query = new Querier()
-                .insert("Table1")
-                .value("jesus")
-                .build();
-
-        assertEquals("INSERT INTO Table1 " +
-                "\nVALUE (jesus)", query);
-    }
-
-    @Test
-    public void createDatabase() {
-        String query = new Querier()
-                .create()
-                .database("MyBase")
-                .build();
-
-        assertEquals("CREATE DATABASE MyBase", query);
-    }
-
-    @Test
-    public void createTable() {
-        String query = new Querier()
-                .create()
-                .table("Contacts")
-                .INT("contact_id", 11)
-                .VARCHAR("last_name", 30)
-                .VARCHAR("first_name", 30)
-                .DATE("birthday")
-                .build();
-
-        assertEquals("CREATE TABLE Contacts " +
-                "(contact_id INT(11), " +
-                "last_name VARCHAR(30), " +
-                "first_name VARCHAR(30), " +
-                "birthday DATE)", query);
     }
 }
